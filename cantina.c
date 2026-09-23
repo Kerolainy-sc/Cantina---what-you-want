@@ -26,6 +26,10 @@ int main() {
         printf("Escolha uma opcao: :)");
         scanf("%d", &opcaoMenu);
 
+
+
+   
+
         switch (opcaoMenu) {
             case 1:
                 printf("\n[ Modulo Novo Pedido]\n");
@@ -49,3 +53,5 @@ int main() {
     } while (opcaoMenu != 0); // Repete enquanto NAO for 0
 
    }
+
+printf("GAby e pedro")
