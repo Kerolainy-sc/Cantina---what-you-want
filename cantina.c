@@ -1,13 +1,12 @@
 #include <stdio.h>
 
-/* ---------- "Caderno" da sessao (variaveis globais) ---------- */
 int total_pedidos = 0;
 int total_itens = 0;
 float faturamento_bruto = 0.0f;
 float total_descontos = 0.0f;
 float faturamento_final = 0.0f;
 
-/* ---------- Prototipos ---------- */
+
 int ler_inteiro(void);
 float ler_float(void);
 
@@ -28,7 +27,6 @@ float dividir(float a, float b);
 void simular_desconto(void);
 void mostrar_relatorio(void);
 
-/* ---------- main: so coordena ---------- */
 int main(void) {
     int opcao;
 
@@ -49,7 +47,7 @@ int main(void) {
             case 2: calculadora();       break;
             case 3: simular_desconto();  break;
             case 4: mostrar_relatorio(); break;
-            case 0: printf("\nSaindo do programa... ate logo!\n"); break;
+            case 0: printf("\nSaindo do programa... ate logo! \n"); break;
             default: printf("\nOpcao invalida! Digite um numero de 0 a 4.\n");
         }
     } while (opcao != 0);
@@ -57,10 +55,6 @@ int main(void) {
     return 0;
 }
 
-/* ---------- Leitura de numeros ---------- */
-
-/* Le um inteiro. Se vier algo que nao e numero, o scanf falha
-   e pedimos de novo, ate o usuario digitar certo. */
 int ler_inteiro(void) {
     int valor;
     int ok;
@@ -68,13 +62,12 @@ int ler_inteiro(void) {
     ok = scanf("%d", &valor);
     while (ok != 1) {
         printf("Entrada invalida. Digite um numero: ");
-        scanf("%*s");        /* descarta o que foi digitado errado */
+        scanf("%*s");
         ok = scanf("%d", &valor);
     }
     return valor;
 }
 
-/* Igual ao ler_inteiro, mas para numeros com casas decimais */
 float ler_float(void) {
     float valor;
     int ok;
@@ -88,25 +81,17 @@ float ler_float(void) {
     return valor;
 }
 
-/* ---------- Cardapio e precos ---------- */
-
 float preco_produto(int codigo) {
-    if (codigo == 1) {
-        return 12.0f;
-    } else if (codigo == 2) {
-        return 6.0f;
-    } else if (codigo == 3) {
-        return 8.0f;
-    } else if (codigo == 4) {
-        return 7.0f;
-    } else if (codigo == 5) {
-        return 4.0f;
-    } else {
-        return 0.0f; /* codigo invalido */
+    switch (codigo) {
+        case 1: return 12.0f; 
+        case 2: return 6.0f;  
+        case 3: return 8.0f;  
+        case 4: return 7.0f;  
+        case 5: return 4.0f;  
+        default: return 0.0f;
     }
 }
 
-/* Repete ate o usuario digitar um codigo de 1 a 5 */
 int ler_codigo_produto(void) {
     int codigo;
 
@@ -121,7 +106,6 @@ int ler_codigo_produto(void) {
     return codigo;
 }
 
-/* Repete ate a quantidade ser maior que zero */
 int ler_quantidade(void) {
     int quantidade;
 
@@ -135,8 +119,6 @@ int ler_quantidade(void) {
 
     return quantidade;
 }
-
-/* ---------- Regra de desconto (escrita uma unica vez) ---------- */
 
 float obter_percentual(float total) {
     if (total >= 100.0f) {
@@ -154,8 +136,6 @@ float calcular_desconto(float total) {
     return total * obter_percentual(total) / 100.0f;
 }
 
-/* ---------- Opcao 1: Novo pedido ---------- */
-
 void novo_pedido(void) {
     int codigo, quantidade;
     int continuar;
@@ -166,20 +146,25 @@ void novo_pedido(void) {
 
     printf("\n[Novo pedido]\n");
 
-    /* varios itens: do...while garante pelo menos um */
     do {
         codigo = ler_codigo_produto();
         quantidade = ler_quantidade();
 
         subtotal = preco_produto(codigo) * quantidade;
-        total_bruto = total_bruto + subtotal;        /* acumulador */
+        total_bruto = total_bruto + subtotal;
         itens_do_pedido = itens_do_pedido + quantidade;
 
         printf("Subtotal do item: R$ %.2f | Total parcial: R$ %.2f\n",
                subtotal, total_bruto);
 
-        printf("Adicionar outro item? 1-Sim / 0-Nao: ");
-        continuar = ler_inteiro();
+      
+        do {
+            printf("Adicionar outro item? 1-Sim / 0-Nao: ");
+            continuar = ler_inteiro();
+            if (continuar != 0 && continuar != 1) {
+                printf("Opcao invalida! Digite 1 para Sim ou 0 para Nao.\n");
+            }
+        } while (continuar != 0 && continuar != 1);
 
     } while (continuar == 1);
 
@@ -196,15 +181,12 @@ void novo_pedido(void) {
     printf("================================\n");
     printf("Pedido registrado com sucesso!\n");
 
-    /* escreve no "caderno" da sessao */
     total_pedidos = total_pedidos + 1;
     total_itens = total_itens + itens_do_pedido;
     faturamento_bruto = faturamento_bruto + total_bruto;
     total_descontos = total_descontos + desconto;
     faturamento_final = faturamento_final + total_final;
 }
-
-/* ---------- Opcao 2: Calculadora rapida ---------- */
 
 float somar(float a, float b) {
     return a + b;
@@ -218,7 +200,6 @@ float multiplicar(float a, float b) {
     return a * b;
 }
 
-/* So deve ser chamada quando b for diferente de zero */
 float dividir(float a, float b) {
     return a / b;
 }
@@ -270,8 +251,6 @@ void calculadora(void) {
     } while (opcao != 0);
 }
 
-/* ---------- Opcao 3: Simular desconto ---------- */
-
 void simular_desconto(void) {
     float valor, percentual, desconto, total_final;
 
@@ -287,8 +266,6 @@ void simular_desconto(void) {
     printf("Desconto: R$ %.2f\n", desconto);
     printf("Valor final: R$ %.2f\n", total_final);
 }
-
-/* ---------- Opcao 4: Relatorio ---------- */
 
 void mostrar_relatorio(void) {
     printf("\n======= RELATORIO =======\n");
