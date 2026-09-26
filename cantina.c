@@ -6,7 +6,6 @@ float faturamento_bruto = 0.0f;
 float total_descontos = 0.0f;
 float faturamento_final = 0.0f;
 
-
 int ler_inteiro(void);
 float ler_float(void);
 
@@ -157,7 +156,6 @@ void novo_pedido(void) {
         printf("Subtotal do item: R$ %.2f | Total parcial: R$ %.2f\n",
                subtotal, total_bruto);
 
-      
         do {
             printf("Adicionar outro item? 1-Sim / 0-Nao: ");
             continuar = ler_inteiro();
@@ -255,16 +253,21 @@ void simular_desconto(void) {
     float valor, percentual, desconto, total_final;
 
     printf("\n[Simular desconto]\n");
-    printf("Valor da compra: ");
+    printf("Digite o valor da compra: R$ ");
     valor = ler_float();
 
     percentual = obter_percentual(valor);
     desconto = calcular_desconto(valor);
     total_final = valor - desconto;
 
-    printf("\nFaixa encontrada: %.0f%%\n", percentual);
-    printf("Desconto: R$ %.2f\n", desconto);
-    printf("Valor final: R$ %.2f\n", total_final);
+    printf("\n================================\n");
+    printf("    RESULTADO DA SIMULACAO\n");
+    printf("================================\n");
+    printf("Valor original: R$ %.2f\n", valor);
+    printf("Faixa de desconto: %.1f%%\n", percentual);
+    printf("Desconto aplicado: R$ %.2f\n", desconto);
+    printf("Valor a pagar:    R$ %.2f\n", total_final);
+    printf("================================\n");
 }
 
 void mostrar_relatorio(void) {
